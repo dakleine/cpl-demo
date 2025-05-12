@@ -19,3 +19,4 @@ resource "google_project_service" "multiple_apis" {
     "container.googleapis.com",
   ])
   service                    = each.value
+}
