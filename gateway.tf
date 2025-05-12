@@ -55,5 +55,5 @@ resource "kubernetes_manifest" "gateway_ns_external_gateway" {
     }
   }
 
-  depends_on = [google_client_config.current]
+  depends_on = [data.google_client_config.current]
 }
