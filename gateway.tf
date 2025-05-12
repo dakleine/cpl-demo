@@ -18,7 +18,7 @@ resource "kubernetes_secret" "cert" {
   type = "kubernetes.io/tls"
 }
 
-resource "kubernetes_manifest" "gateway_gateway_ns_external_gateway" {
+resource "kubernetes_manifest" "gateway_ns_external_gateway" {
   manifest = {
     "apiVersion" = "gateway.networking.k8s.io/v1beta1"
     "kind" = "Gateway"
