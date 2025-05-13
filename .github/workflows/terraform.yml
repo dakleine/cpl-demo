@@ -104,6 +104,8 @@ jobs:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
     - name: Terraform Destroy
-      run: sleep 600 && terraform destroy -auto-approve
+      run: |
+        sleep 600
+        terraform destroy -auto-approve
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
