@@ -18,40 +18,27 @@ resource "kubernetes_secret" "cert" {
   type = "kubernetes.io/tls"
 }
 
-resource "kubernetes_manifest" "gateway_gateway_ns_external_gateway" {
-  manifest = {
-    "apiVersion" = "gateway.networking.k8s.io/v1beta1"
-    "kind" = "Gateway"
-    "metadata" = {
-      "name" = "external-gateway"
-      "namespace" = "gateway-ns"
-    }
-    "spec" = {
-      "gatewayClassName" = "gke-l7-global-external-managed"
-      "listeners" = [
-        {
-          "allowedRoutes" = {
-            "namespaces" = {
-              "from" = "Selector"
-              "selector" = {
-                "matchLabels" = {
-                  "kubernetes.io/metadata.name" = "hello"
-                }
-              }
-            }
-          }
-          "name" = "https"
-          "port" = 443
-          "protocol" = "HTTPS"
-          "tls" = {
-            "certificateRefs" = [
-              {
-                "name" = "gateway-secret"
-              },
-            ]
-          }
-        },
-      ]
-    }
-  }
+resource "kubectl_manifest" "gateway" {
+  yaml_body     = <<YAML
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: external-gateway
+  namespace: gateway-ns
+spec:
+  gatewayClassName: gke-l7-global-external-managed
+  listeners:
+  - name: https
+    protocol: HTTPS
+    port: 443
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: "hello"
+    tls:
+      certificateRefs:
+      - name: gateway-secret
+YAML
 }
