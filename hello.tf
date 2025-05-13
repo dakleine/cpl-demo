@@ -79,6 +79,7 @@ resource "kubernetes_deployment_v1" "hello" {
       }
     }
   }
+  depends_on = [ kubernetes_namespace.hello ]
 }
 
 resource "kubernetes_service_v1" "hello" {
